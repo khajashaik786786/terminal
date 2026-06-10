@@ -1,1 +1,2019 @@
-welcome to linux
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux-Khaja | DV Workbench OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --void: #0a0c0f;
+    --hull: #111417;
+    --panel: #161b20;
+    --plate: #1e252d;
+    --grid: #242d36;
+    --strut: #2e3a45;
+    --chrome: #8fa8bc;
+    --mist: #b8cdd8;
+    --white: #e8f0f5;
+    --yellow: #f5d800;
+    --yellow-dim: #c4ae00;
+    --amber: #ff8c00;
+    --green: #00e5a0;
+    --green-dim: #00b87f;
+    --red: #ff3c5a;
+    --blue-acc: #4fc3f7;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-hud: 'Barlow Condensed', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--mist);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--hull); }
+  ::-webkit-scrollbar-thumb { background: var(--yellow); }
+
+  /* ─── SCAN LINES OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--hull);
+    border-bottom: 1px solid var(--strut);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .nav-badge {
+    width: 32px; height: 32px;
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-hud);
+    font-weight: 800; font-size: 14px;
+    color: var(--void);
+    clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%);
+  }
+
+  .nav-title {
+    font-family: var(--font-hud);
+    font-weight: 700; font-size: 18px; letter-spacing: 4px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .nav-title span { color: var(--yellow); }
+
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-hud);
+    font-size: 13px; font-weight: 600; letter-spacing: 2px;
+    color: var(--chrome);
+    text-decoration: none; text-transform: uppercase;
+    transition: color .2s;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+
+  .nav-right {
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .nav-status {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--green);
+    letter-spacing: 1px;
+  }
+
+  .btn-launch {
+    background: var(--yellow);
+    color: var(--void);
+    font-family: var(--font-hud);
+    font-weight: 700; font-size: 13px; letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    padding: 8px 20px;
+    clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 0 100%);
+    transition: background .2s;
+  }
+
+  .btn-launch:hover { background: var(--white); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, var(--yellow) 0%, transparent 40%),
+      linear-gradient(315deg, #001220 0%, transparent 50%);
+    opacity: 0.06;
+  }
+
+  /* diagonal stripe signature element */
+  .hero-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(245, 216, 0, 0.025) 60px,
+      rgba(245, 216, 0, 0.025) 62px
+    );
+    pointer-events: none;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 64px 80px 80px;
+    position: relative; z-index: 2;
+  }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .eyebrow-line {
+    width: 40px; height: 2px; background: var(--yellow);
+  }
+
+  .eyebrow-text {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--yellow);
+    text-transform: uppercase;
+  }
+
+  .hero-h1 {
+    font-family: var(--font-hud);
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .hero-h1 .accent { color: var(--yellow); }
+  .hero-h1 .stroke {
+    -webkit-text-stroke: 1px var(--strut);
+    color: transparent;
+  }
+
+  .hero-sub {
+    font-family: var(--font-hud);
+    font-size: 20px; font-weight: 300; letter-spacing: 6px;
+    color: var(--chrome);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .hero-desc {
+    font-size: 16px; color: var(--chrome); max-width: 480px;
+    margin-bottom: 48px; line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--void);
+    font-family: var(--font-hud);
+    font-weight: 800; font-size: 15px; letter-spacing: 3px;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    padding: 16px 40px;
+    clip-path: polygon(0 0, 92% 0, 100% 25%, 100% 100%, 8% 100%, 0 75%);
+    transition: all .2s;
+    text-decoration: none; display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--white); transform: translateY(-2px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--chrome);
+    font-family: var(--font-hud);
+    font-weight: 600; font-size: 14px; letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid var(--strut); cursor: pointer;
+    padding: 15px 36px;
+    transition: all .2s;
+    text-decoration: none; display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--strut);
+  }
+
+  .stat-item {}
+
+  .stat-num {
+    font-family: var(--font-hud);
+    font-size: 36px; font-weight: 800;
+    color: var(--white); line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--chrome); text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ─── HERO RIGHT: TERMINAL MOCKUP ─── */
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 80px 80px 40px;
+    position: relative; z-index: 2;
+  }
+
+  .terminal-frame {
+    width: 100%; max-width: 560px;
+    background: var(--hull);
+    border: 1px solid var(--strut);
+    box-shadow: 0 0 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+  }
+
+  .terminal-frame::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--amber), transparent);
+  }
+
+  .terminal-header {
+    background: var(--panel);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--grid);
+  }
+
+  .term-dots { display: flex; gap: 6px; }
+  .term-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .term-dot:nth-child(1) { background: #ff5f56; }
+  .term-dot:nth-child(2) { background: #ffbd2e; }
+  .term-dot:nth-child(3) { background: #27c93f; }
+
+  .term-title {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--chrome);
+    flex: 1; text-align: center; letter-spacing: 2px;
+  }
+
+  .terminal-body {
+    padding: 20px 24px 28px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.9;
+    min-height: 360px;
+  }
+
+  .t-prompt { color: var(--green); }
+  .t-path { color: var(--blue-acc); }
+  .t-cmd { color: var(--white); }
+  .t-out { color: var(--chrome); }
+  .t-comment { color: var(--strut); }
+  .t-file { color: var(--yellow); }
+  .t-dir { color: var(--blue-acc); }
+  .t-err { color: var(--red); }
+  .t-success { color: var(--green); }
+
+  .cursor {
+    display: inline-block; width: 8px; height: 14px;
+    background: var(--green); animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ─── SECTION WRAPPER ─── */
+  .section {
+    padding: 100px 80px;
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--strut);
+  }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--yellow); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: var(--font-hud);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800; letter-spacing: -0.5px;
+    color: var(--white); text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .section-title span { color: var(--yellow); }
+
+  .section-meta {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--strut);
+    text-align: right; letter-spacing: 1px;
+  }
+
+  /* ─── FEATURES GRID ─── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .feature-card {
+    background: var(--hull);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background .25s;
+    cursor: default;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--yellow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s;
+  }
+
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-card:hover { background: var(--panel); }
+
+  .feature-num {
+    font-family: var(--font-hud);
+    font-size: 72px; font-weight: 800;
+    color: var(--grid);
+    line-height: 1;
+    position: absolute; top: 20px; right: 24px;
+  }
+
+  .feature-icon {
+    font-size: 28px; margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+
+  .feature-name {
+    font-family: var(--font-hud);
+    font-size: 22px; font-weight: 700; letter-spacing: 1px;
+    color: var(--white); text-transform: uppercase;
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+
+  .feature-desc {
+    font-size: 14px; color: var(--chrome); line-height: 1.7;
+    position: relative; z-index: 1;
+  }
+
+  .feature-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px;
+    position: relative; z-index: 1;
+  }
+
+  .f-tag {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 1px;
+    color: var(--yellow);
+    background: rgba(245, 216, 0, 0.08);
+    border: 1px solid rgba(245, 216, 0, 0.2);
+    padding: 3px 8px;
+  }
+
+  /* ─── TERMINAL SHOWCASE ─── */
+  .terminal-showcase {
+    background: var(--hull);
+    border: 1px solid var(--strut);
+  }
+
+  .ts-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--strut);
+    overflow-x: auto;
+  }
+
+  .ts-tab {
+    padding: 14px 28px;
+    font-family: var(--font-hud);
+    font-size: 13px; font-weight: 600; letter-spacing: 2px;
+    color: var(--chrome); text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all .2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+
+  .ts-tab:hover { color: var(--white); }
+  .ts-tab.active { color: var(--yellow); border-bottom-color: var(--yellow); background: var(--panel); }
+
+  .ts-panels { }
+
+  .ts-panel {
+    display: none;
+    padding: 32px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 2;
+    min-height: 340px;
+  }
+
+  .ts-panel.active { display: block; }
+
+  /* ─── EDITOR MOCKUP ─── */
+  .editor-mockup {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    height: 520px;
+    background: var(--hull);
+    border: 1px solid var(--strut);
+    overflow: hidden;
+  }
+
+  .editor-sidebar {
+    background: var(--panel);
+    border-right: 1px solid var(--strut);
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 14px 16px;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--chrome); text-transform: uppercase;
+    border-bottom: 1px solid var(--grid);
+  }
+
+  .file-tree { padding: 8px 0; }
+
+  .tree-folder, .tree-file {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 16px;
+    font-family: var(--font-mono);
+    font-size: 12px; cursor: pointer;
+    transition: background .15s;
+  }
+
+  .tree-folder:hover, .tree-file:hover { background: var(--grid); }
+  .tree-file.active { background: rgba(245,216,0,0.1); color: var(--yellow); }
+
+  .tree-folder { color: var(--blue-acc); }
+  .tree-file { color: var(--chrome); padding-left: 32px; }
+
+  .tree-icon { font-size: 12px; }
+
+  .editor-main {
+    display: flex; flex-direction: column;
+  }
+
+  .editor-tabs {
+    display: flex;
+    background: var(--panel);
+    border-bottom: 1px solid var(--strut);
+    overflow-x: auto;
+  }
+
+  .editor-tab {
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px; color: var(--chrome);
+    border-right: 1px solid var(--strut);
+    cursor: pointer; white-space: nowrap;
+    transition: all .15s;
+  }
+
+  .editor-tab.active { background: var(--hull); color: var(--yellow); }
+
+  .editor-content {
+    flex: 1; overflow: auto;
+    padding: 0;
+  }
+
+  .code-line {
+    display: flex;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+  }
+
+  .line-num {
+    min-width: 48px; text-align: right;
+    color: var(--strut);
+    padding: 0 16px 0 8px;
+    user-select: none;
+    border-right: 1px solid var(--grid);
+    margin-right: 16px;
+    font-size: 11px;
+  }
+
+  .code-kw { color: #c792ea; }
+  .code-cls { color: #ffcb6b; }
+  .code-str { color: #c3e88d; }
+  .code-num { color: #f78c6c; }
+  .code-cmt { color: var(--strut); font-style: italic; }
+  .code-fn { color: #82aaff; }
+  .code-var { color: var(--mist); }
+
+  .line-active { background: rgba(245,216,0,0.05); }
+
+  /* ─── HUD METRICS ─── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    background: var(--strut);
+    margin-bottom: 2px;
+  }
+
+  .metric-card {
+    background: var(--hull);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metric-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), transparent);
+  }
+
+  .metric-val {
+    font-family: var(--font-hud);
+    font-size: 48px; font-weight: 800;
+    color: var(--white); line-height: 1;
+  }
+
+  .metric-unit {
+    font-family: var(--font-hud);
+    font-size: 20px; color: var(--yellow);
+  }
+
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--chrome); text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .metric-delta {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--green);
+    margin-top: 6px;
+  }
+
+  /* ─── TOOLS SECTION ─── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .tool-card {
+    background: var(--hull);
+    padding: 48px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .tool-info {}
+
+  .tool-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--yellow);
+    background: rgba(245,216,0,0.1);
+    border: 1px solid rgba(245,216,0,0.3);
+    padding: 4px 10px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .tool-name {
+    font-family: var(--font-hud);
+    font-size: 28px; font-weight: 800; letter-spacing: 1px;
+    color: var(--white); text-transform: uppercase;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .tool-desc {
+    font-size: 14px; color: var(--chrome); line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .tool-cmds {
+    background: var(--void);
+    border: 1px solid var(--grid);
+    padding: 16px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .tool-cmd-line {
+    color: var(--chrome); line-height: 2;
+  }
+
+  .tool-cmd-line .dollar { color: var(--green); margin-right: 8px; }
+  .tool-cmd-line .cmd-text { color: var(--white); }
+
+  /* ─── WORKFLOW ─── */
+  .workflow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .workflow::before {
+    content: '';
+    position: absolute;
+    top: 32px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--yellow), var(--amber), var(--yellow), transparent);
+  }
+
+  .wf-step {
+    padding: 0 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .wf-num {
+    width: 64px; height: 64px;
+    background: var(--hull);
+    border: 2px solid var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-hud);
+    font-size: 24px; font-weight: 800; color: var(--yellow);
+    margin: 0 auto 28px;
+    clip-path: polygon(0 20%, 20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%);
+    position: relative; z-index: 1;
+  }
+
+  .wf-title {
+    font-family: var(--font-hud);
+    font-size: 18px; font-weight: 700; letter-spacing: 2px;
+    color: var(--white); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .wf-desc {
+    font-size: 14px; color: var(--chrome); line-height: 1.6;
+  }
+
+  /* ─── AI ASSISTANT ─── */
+  .ai-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .ai-left {
+    background: var(--hull);
+    padding: 64px;
+  }
+
+  .ai-right {
+    background: var(--panel);
+    padding: 40px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .ai-chat {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .chat-msg {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+
+  .chat-avatar {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .chat-avatar.user {
+    background: var(--yellow); color: var(--void); font-weight: 700;
+  }
+
+  .chat-avatar.ai {
+    background: var(--green-dim); color: var(--void); font-weight: 700;
+  }
+
+  .chat-bubble {
+    background: var(--hull);
+    border: 1px solid var(--strut);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 12px; color: var(--mist);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .chat-bubble.ai-bubble {
+    background: rgba(0, 229, 160, 0.05);
+    border-color: rgba(0, 229, 160, 0.2);
+    color: var(--green);
+  }
+
+  /* ─── COLLABORATION ─── */
+  .collab-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .collab-card {
+    background: var(--hull);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .collab-card::after {
+    content: attr(data-label);
+    position: absolute; bottom: 20px; right: 20px;
+    font-family: var(--font-hud);
+    font-size: 80px; font-weight: 800; letter-spacing: -4px;
+    color: var(--grid); line-height: 1;
+  }
+
+  .collab-icon {
+    font-size: 32px; margin-bottom: 20px;
+  }
+
+  .collab-title {
+    font-family: var(--font-hud);
+    font-size: 24px; font-weight: 700; letter-spacing: 1px;
+    color: var(--white); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .collab-desc {
+    font-size: 14px; color: var(--chrome); line-height: 1.7;
+    position: relative; z-index: 1;
+  }
+
+  .permission-list {
+    margin-top: 20px; display: flex; flex-direction: column; gap: 8px;
+    position: relative; z-index: 1;
+  }
+
+  .perm-item {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 12px;
+  }
+
+  .perm-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ─── ARCHITECTURE ─── */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .arch-layer {
+    background: var(--hull);
+    padding: 40px 32px;
+  }
+
+  .arch-layer-title {
+    font-family: var(--font-hud);
+    font-size: 13px; font-weight: 700; letter-spacing: 4px;
+    color: var(--yellow); text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--grid);
+  }
+
+  .arch-items { display: flex; flex-direction: column; gap: 10px; }
+
+  .arch-item {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--chrome);
+  }
+
+  .arch-item::before {
+    content: '›';
+    color: var(--yellow); font-size: 14px;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    background: var(--hull);
+    padding: 120px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(-45deg, transparent, transparent 80px, rgba(245,216,0,0.02) 80px, rgba(245,216,0,0.02) 82px);
+  }
+
+  .cta-section::after {
+    content: '';
+    position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(245,216,0,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cta-label {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 4px;
+    color: var(--yellow); text-transform: uppercase;
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+
+  .cta-headline {
+    font-family: var(--font-hud);
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 800; letter-spacing: -2px;
+    color: var(--white); text-transform: uppercase;
+    line-height: 0.95;
+    margin-bottom: 32px;
+    position: relative; z-index: 1;
+  }
+
+  .cta-headline .y { color: var(--yellow); }
+
+  .cta-sub {
+    font-size: 18px; color: var(--chrome); max-width: 600px;
+    margin: 0 auto 56px; line-height: 1.7;
+    position: relative; z-index: 1;
+  }
+
+  .cta-actions {
+    display: flex; gap: 16px; justify-content: center; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--void);
+    border-top: 1px solid var(--strut);
+    padding: 48px 80px;
+  }
+
+  .footer-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .footer-brand {
+    font-family: var(--font-hud);
+    font-size: 20px; font-weight: 800; letter-spacing: 4px;
+    color: var(--white); text-transform: uppercase;
+  }
+
+  .footer-brand span { color: var(--yellow); }
+
+  .footer-links { display: flex; gap: 32px; }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--chrome); text-decoration: none;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+
+  .footer-links a:hover { color: var(--yellow); }
+
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--strut);
+    letter-spacing: 1px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .hud-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--yellow) 30%, var(--amber) 50%, var(--yellow) 70%, transparent);
+    opacity: 0.4;
+    margin: 0;
+  }
+
+  /* ─── BACKGROUND SECTIONS ─── */
+  .bg-alt { background: var(--panel); }
+  .bg-hull { background: var(--hull); }
+
+  /* ─── SNIPPET SHOWCASE ─── */
+  .snippet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--strut);
+  }
+
+  .snippet-card {
+    background: var(--hull);
+    overflow: hidden;
+  }
+
+  .snippet-header {
+    padding: 14px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--strut);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .snippet-name {
+    font-family: var(--font-mono);
+    font-size: 12px; color: var(--yellow);
+  }
+
+  .snippet-badge {
+    font-family: var(--font-mono);
+    font-size: 9px; letter-spacing: 1px;
+    background: rgba(245,216,0,0.1);
+    border: 1px solid rgba(245,216,0,0.2);
+    color: var(--yellow);
+    padding: 2px 6px;
+    text-transform: uppercase;
+  }
+
+  .snippet-body {
+    padding: 16px 20px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--chrome);
+  }
+
+  .kw { color: #c792ea; }
+  .cn { color: #ffcb6b; }
+  .st { color: #c3e88d; }
+  .cm { color: var(--strut); font-style: italic; }
+  .fn { color: #82aaff; }
+
+  /* responsive */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .metrics-grid { grid-template-columns: repeat(3, 1fr); }
+    .arch-grid { grid-template-columns: repeat(2, 1fr); }
+    .tools-grid { grid-template-columns: 1fr; }
+    .ai-panel { grid-template-columns: 1fr; }
+    .editor-mockup { grid-template-columns: 1fr; height: auto; }
+    .editor-sidebar { display: none; }
+    .workflow { grid-template-columns: repeat(2, 1fr); }
+    .workflow::before { display: none; }
+    .collab-grid { grid-template-columns: 1fr; }
+    .snippet-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .section { padding: 64px 24px; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-left { padding: 60px 24px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .tool-card { grid-template-columns: 1fr; }
+    .workflow { grid-template-columns: 1fr; }
+    .snippet-grid { grid-template-columns: 1fr; }
+    footer { padding: 40px 24px; }
+    .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .cta-section { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-badge">LK</div>
+    <span class="nav-title">LINUX<span>-</span>KHAJA</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#editor">Editor</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#ai">AI Assist</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="status-dot"></div>
+    <span class="nav-status">SYSTEM_ONLINE</span>
+    <button class="btn-launch">Launch OS</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-stripe"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">DV Workbench OS · v2.4.1</span>
+    </div>
+    <h1 class="hero-h1">
+      LINUX<br>
+      <span class="accent">KHAJA</span><br>
+      <span class="stroke">TERMINAL</span>
+    </h1>
+    <p class="hero-sub">Your Workstation. Your Rules.</p>
+    <p class="hero-desc">
+      A cloud-based Linux workstation built for SystemVerilog, UVM, Assertions, AXI/AHB/APB, and SoC verification engineers.
+      No fixed labs. No forced workflows. Just a blank terminal and infinite possibilities.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Boot Terminal</a>
+      <a href="#features" class="btn-ghost">Explore Features</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">900<span style="color:var(--yellow);font-size:24px">+</span></div>
+        <div class="stat-label">Simulations Run</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">450</div>
+        <div class="stat-label">Files Written</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">25</div>
+        <div class="stat-label">Projects Active</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">120</div>
+        <div class="stat-label">Git Commits</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="terminal-frame">
+      <div class="terminal-header">
+        <div class="term-dots">
+          <div class="term-dot"></div>
+          <div class="term-dot"></div>
+          <div class="term-dot"></div>
+        </div>
+        <span class="term-title">khaja@dvworkbench — Terminal 1</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects$</span> <span class="t-cmd">ls -la</span></div>
+        <div class="t-out" style="color:var(--strut)">total 48</div>
+        <div><span class="t-dir">drwxr-xr-x</span>&nbsp;<span class="t-out">axi_project/</span></div>
+        <div><span class="t-dir">drwxr-xr-x</span>&nbsp;<span class="t-out">ahb_project/</span></div>
+        <div><span class="t-dir">drwxr-xr-x</span>&nbsp;<span class="t-out">uart_project/</span></div>
+        <div><span class="t-dir">drwxr-xr-x</span>&nbsp;<span class="t-out">my_soc/</span></div>
+        <div style="margin-top:8px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects$</span> <span class="t-cmd">cd axi_project && tree</span></div>
+        <div class="t-out">.</div>
+        <div class="t-out">├── <span class="t-dir">rtl/</span></div>
+        <div class="t-out">│&nbsp;&nbsp; └── <span class="t-file">axi_slave.sv</span></div>
+        <div class="t-out">├── <span class="t-dir">tb/</span></div>
+        <div class="t-out">│&nbsp;&nbsp; └── <span class="t-file">tb_top.sv</span></div>
+        <div class="t-out">├── <span class="t-dir">scripts/</span></div>
+        <div class="t-out">└── <span class="t-dir">docs/</span></div>
+        <div style="margin-top:8px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">ask "difference between interface and module"</span></div>
+        <div class="t-success">▶ AI: An interface bundles signals + logic for clean connectivity</div>
+        <div class="t-success">&nbsp;&nbsp;&nbsp;between modules. A module is a design unit with ports...</div>
+        <div style="margin-top:8px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Core Capabilities</div>
+        <h2 class="section-title">Built for <span>Engineers</span></h2>
+      </div>
+      <div class="section-meta">SYSTEM.FEATURES<br>MODULE_COUNT: 12</div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-icon">⚡</div>
+        <div class="feature-name">Real Linux Terminal</div>
+        <div class="feature-desc">Full Ubuntu-like terminal with bash commands. pwd, ls, cd, mkdir, grep, find, tree, history — everything you expect from a real workstation.</div>
+        <div class="feature-tags">
+          <span class="f-tag">bash</span><span class="f-tag">ubuntu</span><span class="f-tag">xterm.js</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-icon">📝</div>
+        <div class="feature-name">Multi-Editor Support</div>
+        <div class="feature-desc">Choose your weapon — GVIM with full command mode, VS Code-style Monaco Editor, Vim keybindings, or Nano. Switch anytime, zero friction.</div>
+        <div class="feature-tags">
+          <span class="f-tag">gvim</span><span class="f-tag">monaco</span><span class="f-tag">vim</span><span class="f-tag">nano</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-icon">📁</div>
+        <div class="feature-name">Unlimited Projects</div>
+        <div class="feature-desc">Create any project structure you want. AXI, AHB, PCIe, USB, CPU, GPU, random testing, interview practice — the filesystem is yours.</div>
+        <div class="feature-tags">
+          <span class="f-tag">axi</span><span class="f-tag">ahb</span><span class="f-tag">pcie</span><span class="f-tag">uvm</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-icon">🔀</div>
+        <div class="feature-name">Git Integration</div>
+        <div class="feature-desc">Full Git workflow built in. git init, add, commit, push — plus a visual Git panel showing modified, added, and deleted files at a glance.</div>
+        <div class="feature-tags">
+          <span class="f-tag">git</span><span class="f-tag">version-control</span><span class="f-tag">history</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-icon">📡</div>
+        <div class="feature-name">Waveform Viewer</div>
+        <div class="feature-desc">Open simulation waveforms directly in the browser. Zoom, markers, measurements, bookmarks, and signal search — no external tool needed.</div>
+        <div class="feature-tags">
+          <span class="f-tag">vcd</span><span class="f-tag">waveform</span><span class="f-tag">debug</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-icon">🔌</div>
+        <div class="feature-name">Tool Plugin System</div>
+        <div class="feature-desc">Install any EDA toolchain. QuestaSim, VCS, Xcelium, Verilator — each as a plugin. Switch between tools with a single command.</div>
+        <div class="feature-tags">
+          <span class="f-tag">questa</span><span class="f-tag">vcs</span><span class="f-tag">xcelium</span><span class="f-tag">verilator</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">07</div>
+        <div class="feature-icon">🤖</div>
+        <div class="feature-name">AI Assistant</div>
+        <div class="feature-desc">Type <code style="color:var(--yellow);background:var(--void);padding:2px 6px">ask</code> in any terminal to get instant answers on UVM, assertions, protocols, and SystemVerilog — right where you work.</div>
+        <div class="feature-tags">
+          <span class="f-tag">ai</span><span class="f-tag">inline</span><span class="f-tag">terminal</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">08</div>
+        <div class="feature-icon">🔗</div>
+        <div class="feature-name">Multi-Terminal</div>
+        <div class="feature-desc">Run up to 4 terminals simultaneously. Compile in one, edit in another, run regression in a third, manage Git in the fourth.</div>
+        <div class="feature-tags">
+          <span class="f-tag">parallel</span><span class="f-tag">4-pane</span><span class="f-tag">async</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">09</div>
+        <div class="feature-icon">☁️</div>
+        <div class="feature-name">Cloud Autosave</div>
+        <div class="feature-desc">Every keystroke saved every 3 seconds. Full version history maintained. Your work is safe whether you close the tab or lose connection.</div>
+        <div class="feature-tags">
+          <span class="f-tag">autosave</span><span class="f-tag">versioning</span><span class="f-tag">cloud</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">10</div>
+        <div class="feature-icon">🎯</div>
+        <div class="feature-name">Snippet Library</div>
+        <div class="feature-desc">Store and recall frequently used code blocks. uvm_driver, uvm_monitor, axi_sequence — insert any snippet with a single terminal command.</div>
+        <div class="feature-tags">
+          <span class="f-tag">snippet</span><span class="f-tag">reuse</span><span class="f-tag">uvm</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">11</div>
+        <div class="feature-icon">📋</div>
+        <div class="feature-name">Notes Panel</div>
+        <div class="feature-desc">Markdown-supported notes panel for verification notes, UVM theory, assertion patterns, and interview prep — all within the workspace.</div>
+        <div class="feature-tags">
+          <span class="f-tag">markdown</span><span class="f-tag">notes</span><span class="f-tag">docs</span>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">12</div>
+        <div class="feature-icon">🔍</div>
+        <div class="feature-name">Global Search</div>
+        <div class="feature-desc">Search across all files, projects, notes, and snippets in one command. Find that AXI monitor you wrote three projects ago instantly.</div>
+        <div class="feature-tags">
+          <span class="f-tag">search</span><span class="f-tag">global</span><span class="f-tag">grep</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- DASHBOARD METRICS -->
+<section class="section bg-hull">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Live Dashboard</div>
+        <h2 class="section-title">Your <span>Metrics</span></h2>
+      </div>
+      <div class="section-meta">DASHBOARD.STATUS<br>REAL_TIME: TRUE</div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-val">25</div>
+        <div class="metric-label">Projects Created</div>
+        <div class="metric-delta">▲ +3 this week</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">450</div>
+        <div class="metric-label">Files Written</div>
+        <div class="metric-delta">▲ +28 today</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">120</div>
+        <div class="metric-label">Git Commits</div>
+        <div class="metric-delta">▲ +7 today</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">900</div>
+        <div class="metric-label">Simulations</div>
+        <div class="metric-delta">▲ +42 this week</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-val">300</div>
+        <div class="metric-label">Coverage Reports</div>
+        <div class="metric-delta">▲ 96.4% avg</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- EDITOR SECTION -->
+<section class="section" id="editor">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Code Editor</div>
+        <h2 class="section-title">Write. Debug. <span>Ship.</span></h2>
+      </div>
+      <div class="section-meta">EDITOR.MODE<br>ACTIVE: GVIM</div>
+    </div>
+
+    <div class="editor-mockup">
+      <div class="editor-sidebar">
+        <div class="sidebar-header">Explorer</div>
+        <div class="file-tree">
+          <div class="tree-folder"><span class="tree-icon">▾</span> axi_project</div>
+          <div class="tree-folder" style="padding-left:28px"><span class="tree-icon">▾</span> rtl</div>
+          <div class="tree-file active">📄 axi_slave.sv</div>
+          <div class="tree-file">📄 axi_master.sv</div>
+          <div class="tree-folder" style="padding-left:28px"><span class="tree-icon">▾</span> tb</div>
+          <div class="tree-file">📄 tb_top.sv</div>
+          <div class="tree-file">📄 tb_pkg.sv</div>
+          <div class="tree-folder" style="padding-left:28px"><span class="tree-icon">▾</span> uvm_env</div>
+          <div class="tree-file">📄 driver.sv</div>
+          <div class="tree-file">📄 monitor.sv</div>
+          <div class="tree-file">📄 scoreboard.sv</div>
+          <div class="tree-file">📄 agent.sv</div>
+          <div class="tree-folder" style="padding-left:28px"><span class="tree-icon">▾</span> scripts</div>
+          <div class="tree-file">📄 compile.sh</div>
+          <div class="tree-file">📄 regress.sh</div>
+          <div class="tree-folder" style="padding-left:28px"><span class="tree-icon">▾</span> docs</div>
+          <div class="tree-file">📄 README.md</div>
+        </div>
+      </div>
+
+      <div class="editor-main">
+        <div class="editor-tabs">
+          <div class="editor-tab active">driver.sv</div>
+          <div class="editor-tab">monitor.sv</div>
+          <div class="editor-tab">scoreboard.sv</div>
+          <div class="editor-tab">tb_top.sv</div>
+        </div>
+        <div class="editor-content">
+          <div class="code-line"><span class="line-num">1</span><span class="code-cmt">// AXI4 UVM Driver — linux-khaja workbench</span></div>
+          <div class="code-line"><span class="line-num">2</span></div>
+          <div class="code-line"><span class="line-num">3</span><span class="code-kw">`include</span> <span class="code-str">"uvm_macros.svh"</span></div>
+          <div class="code-line"><span class="line-num">4</span><span class="code-kw">import</span> <span class="code-var">uvm_pkg</span>::*;</div>
+          <div class="code-line"><span class="line-num">5</span></div>
+          <div class="code-line"><span class="line-num">6</span><span class="code-kw">class</span> <span class="code-cls">axi_driver</span> <span class="code-kw">extends</span> <span class="code-cls">uvm_driver</span>#(<span class="code-cls">axi_seq_item</span>);</div>
+          <div class="code-line"><span class="line-num">7</span></div>
+          <div class="code-line"><span class="line-num">8</span>&nbsp;&nbsp;<span class="code-kw">`uvm_component_utils</span>(<span class="code-cls">axi_driver</span>)</div>
+          <div class="code-line"><span class="line-num">9</span></div>
+          <div class="code-line"><span class="line-num">10</span>&nbsp;&nbsp;<span class="code-kw">virtual</span> <span class="code-cls">axi_if</span> <span class="code-var">vif</span>;</div>
+          <div class="code-line line-active"><span class="line-num">11</span>&nbsp;&nbsp;<span class="code-cls">axi_seq_item</span> <span class="code-var">req</span>;</div>
+          <div class="code-line"><span class="line-num">12</span></div>
+          <div class="code-line"><span class="line-num">13</span>&nbsp;&nbsp;<span class="code-kw">function new</span>(<span class="code-kw">string</span> <span class="code-var">name</span>, <span class="code-cls">uvm_component</span> <span class="code-var">parent</span>);</div>
+          <div class="code-line"><span class="line-num">14</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">super</span>.<span class="code-fn">new</span>(<span class="code-var">name</span>, <span class="code-var">parent</span>);</div>
+          <div class="code-line"><span class="line-num">15</span>&nbsp;&nbsp;<span class="code-kw">endfunction</span></div>
+          <div class="code-line"><span class="line-num">16</span></div>
+          <div class="code-line"><span class="line-num">17</span>&nbsp;&nbsp;<span class="code-kw">task</span> <span class="code-fn">run_phase</span>(<span class="code-cls">uvm_phase</span> <span class="code-var">phase</span>);</div>
+          <div class="code-line"><span class="line-num">18</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">forever</span> <span class="code-kw">begin</span></div>
+          <div class="code-line"><span class="line-num">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.<span class="code-fn">get_next_item</span>(<span class="code-var">req</span>);</div>
+          <div class="code-line"><span class="line-num">20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-fn">drive_item</span>(<span class="code-var">req</span>);</div>
+          <div class="code-line"><span class="line-num">21</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.<span class="code-fn">item_done</span>();</div>
+          <div class="code-line"><span class="line-num">22</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">end</span></div>
+          <div class="code-line"><span class="line-num">23</span>&nbsp;&nbsp;<span class="code-kw">endtask</span></div>
+          <div class="code-line"><span class="line-num">24</span></div>
+          <div class="code-line"><span class="line-num">25</span>&nbsp;&nbsp;<span class="code-kw">task</span> <span class="code-fn">drive_item</span>(<span class="code-cls">axi_seq_item</span> <span class="code-var">item</span>);</div>
+          <div class="code-line"><span class="line-num">26</span>&nbsp;&nbsp;&nbsp;&nbsp;@(<span class="code-kw">posedge</span> vif.clk);</div>
+          <div class="code-line"><span class="line-num">27</span>&nbsp;&nbsp;&nbsp;&nbsp;vif.AWVALID &lt;= <span class="code-num">1'b1</span>;</div>
+          <div class="code-line"><span class="line-num">28</span>&nbsp;&nbsp;&nbsp;&nbsp;vif.AWADDR  &lt;= item.addr;</div>
+          <div class="code-line"><span class="line-num">29</span>&nbsp;&nbsp;&nbsp;&nbsp;vif.AWLEN   &lt;= item.len;</div>
+          <div class="code-line"><span class="line-num">30</span>&nbsp;&nbsp;<span class="code-kw">endtask</span></div>
+          <div class="code-line"><span class="line-num">31</span></div>
+          <div class="code-line"><span class="line-num">32</span><span class="code-kw">endclass</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- TERMINAL SHOWCASE -->
+<section class="section bg-alt" id="tools">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Terminal Commands</div>
+        <h2 class="section-title">Command <span>Center</span></h2>
+      </div>
+      <div class="section-meta">TERMINAL.PLUGINS<br>TOOLCHAIN: LOADED</div>
+    </div>
+
+    <div class="terminal-showcase">
+      <div class="ts-tabs">
+        <button class="ts-tab active" onclick="showTab('questa')">QuestaSim</button>
+        <button class="ts-tab" onclick="showTab('vcs')">VCS</button>
+        <button class="ts-tab" onclick="showTab('xcelium')">Xcelium</button>
+        <button class="ts-tab" onclick="showTab('verilator')">Verilator</button>
+        <button class="ts-tab" onclick="showTab('git')">Git</button>
+        <button class="ts-tab" onclick="showTab('background')">Background Jobs</button>
+      </div>
+
+      <div id="tab-questa" class="ts-panel active">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">install_tool questa</span></div>
+        <div class="t-success">✓ QuestaSim plugin installed successfully</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">vlog +sv tb/tb_top.sv rtl/axi_slave.sv</span></div>
+        <div class="t-out">Model Technology ModelSim SE-64 vlog 2023.4</div>
+        <div class="t-out">-- Compiling module axi_slave</div>
+        <div class="t-out">-- Compiling module tb_top</div>
+        <div class="t-success">✓ Compile completed: 0 errors, 0 warnings</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">vsim -c work.tb_top</span></div>
+        <div class="t-out">vsim 2023.4 -- Starting simulation</div>
+        <div style="margin-top:12px"><span class="t-prompt">ModelSim&gt;</span> <span class="t-cmd">run -all</span></div>
+        <div class="t-success">✓ UVM_INFO: Simulation PASSED — 2048 transactions verified</div>
+        <div class="t-out">Coverage: 96.4% statement | 89.2% branch | 94.1% toggle</div>
+      </div>
+
+      <div id="tab-vcs" class="ts-panel">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">install_tool vcs</span></div>
+        <div class="t-success">✓ Synopsys VCS plugin loaded</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">vlogan -full64 -sverilog rtl/axi_slave.sv</span></div>
+        <div class="t-out">Chronologic Simulation — VCS® Compiler</div>
+        <div class="t-success">✓ Analysis complete</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">vcs -full64 work.tb_top -o simv</span></div>
+        <div class="t-success">✓ Elaboration completed → simv generated</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">./simv +UVM_TESTNAME=axi_base_test</span></div>
+        <div class="t-success">✓ TEST PASS — all assertions green</div>
+      </div>
+
+      <div id="tab-xcelium" class="ts-panel">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">install_tool xrun</span></div>
+        <div class="t-success">✓ Cadence Xcelium plugin loaded</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">xrun -sv -uvm tb/tb_top.sv rtl/*.sv</span></div>
+        <div class="t-out">Cadence Xcelium Logic Simulator 23.09</div>
+        <div class="t-out">xmelab: *E,DIRSTR: Elaborating design ...</div>
+        <div class="t-success">✓ xmsim: Simulation completed successfully</div>
+        <div class="t-out">UVM Report: 0 FATAL / 0 ERROR / 0 WARNING</div>
+      </div>
+
+      <div id="tab-verilator" class="ts-panel">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">install_tool verilator</span></div>
+        <div class="t-success">✓ Verilator 5.x plugin loaded</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">verilator --cc --exe --build rtl/axi_slave.sv tb/sim_main.cpp</span></div>
+        <div class="t-out">%Info: Verilating...</div>
+        <div class="t-out">%Warning-STMTDLY: statement delay ignored</div>
+        <div class="t-success">%Info: Build complete! ./obj_dir/Vaxi_slave</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">./obj_dir/Vaxi_slave</span></div>
+        <div class="t-success">✓ Simulation PASS — waveform written to waves.vcd</div>
+      </div>
+
+      <div id="tab-git" class="ts-panel">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">git init && git add .</span></div>
+        <div class="t-success">Initialized empty Git repository in .git/</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">git status</span></div>
+        <div class="t-out">On branch main</div>
+        <div class="t-out" style="color:var(--green)">Modified:&nbsp; tb/driver.sv</div>
+        <div class="t-out" style="color:var(--blue-acc)">New file:&nbsp; scripts/regress.sh</div>
+        <div class="t-out" style="color:var(--red)">Deleted:&nbsp;&nbsp; old_tb/legacy.sv</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">git commit -m "feat: add AXI write channel driver"</span></div>
+        <div class="t-success">✓ [main a7d3f21] feat: add AXI write channel driver</div>
+        <div class="t-out">&nbsp;3 files changed, 148 insertions(+), 12 deletions(-)</div>
+      </div>
+
+      <div id="tab-background" class="ts-panel">
+        <div><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">compile &amp;</span></div>
+        <div class="t-out">[1] 24891 Running compile</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">simulate &amp;</span></div>
+        <div class="t-out">[2] 24902 Running simulate</div>
+        <div style="margin-top:12px"><span class="t-prompt">khaja@dvworkbench</span><span class="t-path">:~/projects/axi_project$</span> <span class="t-cmd">jobs</span></div>
+        <div class="t-out">[1] Running&nbsp; vlog +sv tb/tb_top.sv rtl/axi_slave.sv</div>
+        <div class="t-out">[2] Running&nbsp; vsim -c work.tb_top -do "run -all; quit"</div>
+        <div style="margin-top:12px"><span class="t-out" style="color:var(--green)">[1] Done&nbsp;&nbsp;&nbsp;&nbsp; compile</span></div>
+        <div class="t-success">✓ Compile finished — 0 errors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- TOOL PLUGINS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// EDA Plugins</div>
+        <h2 class="section-title">Your <span>Toolchain</span></h2>
+      </div>
+      <div class="section-meta">PLUGINS.AVAILABLE<br>COUNT: 4</div>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-info">
+          <div class="tool-badge">Mentor / Siemens</div>
+          <div class="tool-name">QuestaSim</div>
+          <div class="tool-desc">Industry-leading HDL simulator with advanced UVM debug, coverage closure, and mixed-language simulation support.</div>
+        </div>
+        <div class="tool-cmds">
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">vlog +sv file.sv</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">vsim work.tb_top</span></div>
+          <div class="tool-cmd-line"><span class="dollar">&gt;</span><span class="cmd-text">run -all</span></div>
+          <div class="tool-cmd-line"><span class="dollar">&gt;</span><span class="cmd-text">coverage report</span></div>
+          <div class="tool-cmd-line"><span class="dollar">&gt;</span><span class="cmd-text">wave open dump.vcd</span></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-info">
+          <div class="tool-badge">Synopsys</div>
+          <div class="tool-name">VCS</div>
+          <div class="tool-desc">High-performance Verilog Compiler Simulator from Synopsys. Native SystemVerilog and UVM support with fastest compile times.</div>
+        </div>
+        <div class="tool-cmds">
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">vlogan -sv file.sv</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">vcs work.tb_top -o simv</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">./simv +test=base</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">urg -dir simv.vdb</span></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-info">
+          <div class="tool-badge">Cadence</div>
+          <div class="tool-name">Xcelium</div>
+          <div class="tool-desc">Cadence's parallel simulation engine with native UVM acceleration, SystemVerilog assertions, and incisive coverage analysis.</div>
+        </div>
+        <div class="tool-cmds">
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">xrun -sv -uvm top.sv</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">xrun -R +test=rand</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">imc -load cov_work</span></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-info">
+          <div class="tool-badge">Open Source</div>
+          <div class="tool-name">Verilator</div>
+          <div class="tool-desc">The fastest free Verilog/SystemVerilog simulator. Compiles to cycle-accurate C++/SystemC — perfect for CI pipelines and FPGA flows.</div>
+        </div>
+        <div class="tool-cmds">
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">verilator --cc top.sv</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">make -j4 -f Vtop.mk</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">./obj_dir/Vtop</span></div>
+          <div class="tool-cmd-line"><span class="dollar">$</span><span class="cmd-text">gtkwave waves.vcd</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- WORKFLOW -->
+<section class="section bg-hull">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// How It Works</div>
+        <h2 class="section-title">Zero to <span>Simulation</span></h2>
+      </div>
+      <div class="section-meta">WORKFLOW.STEPS<br>TOTAL: 4</div>
+    </div>
+
+    <div class="workflow">
+      <div class="wf-step">
+        <div class="wf-num">1</div>
+        <div class="wf-title">Create Workspace</div>
+        <div class="wf-desc">Boot the OS, create a new project folder, pick a template or start blank. Your filesystem, your structure.</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">2</div>
+        <div class="wf-title">Write Code</div>
+        <div class="wf-desc">Open your editor — GVIM, VS Code, or Vim. Write RTL, testbench, UVM components. Autosave handles the rest.</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">3</div>
+        <div class="wf-title">Compile & Simulate</div>
+        <div class="wf-desc">Install your EDA tool plugin, run compile and simulate commands directly from the terminal. Background jobs keep you productive.</div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">4</div>
+        <div class="wf-title">Debug & Close</div>
+        <div class="wf-desc">Open waveforms, check coverage, use the AI assistant for quick answers, commit to Git, and share with teammates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- AI ASSISTANT -->
+<section class="section" id="ai">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// AI Terminal Assistant</div>
+        <h2 class="section-title">Ask <span>Anything</span></h2>
+      </div>
+      <div class="section-meta">AI.ENGINE<br>STATUS: ONLINE</div>
+    </div>
+
+    <div class="ai-panel">
+      <div class="ai-left">
+        <div class="section-tag" style="margin-bottom:16px">// Inline Terminal AI</div>
+        <h3 style="font-family:var(--font-hud);font-size:32px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:20px;line-height:1.1">Your Expert Engineer, <span style="color:var(--yellow)">On Demand</span></h3>
+        <p style="color:var(--chrome);font-size:15px;line-height:1.8;margin-bottom:32px">Type <code style="color:var(--yellow);background:var(--void);padding:3px 8px;border:1px solid var(--strut)">ask</code> followed by any question directly in your terminal. Get precise answers on UVM, SystemVerilog, assertions, protocols, and interview concepts — without leaving your workflow.</p>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:12px 16px">
+            <span style="color:var(--green)">$</span> <span style="color:var(--white)">ask "difference between static function and function static"</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:12px 16px">
+            <span style="color:var(--green)">$</span> <span style="color:var(--white)">ask "explain UVM phases in order"</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:12px 16px">
+            <span style="color:var(--green)">$</span> <span style="color:var(--white)">ask "when to use assert vs assume in SVA"</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:12px 16px">
+            <span style="color:var(--green)">$</span> <span style="color:var(--white)">ask "AXI4 vs AXI4-Lite protocol differences"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-right">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--yellow);text-transform:uppercase;margin-bottom:20px">// Live Response</div>
+        <div class="ai-chat">
+          <div class="chat-msg">
+            <div class="chat-avatar user">K</div>
+            <div class="chat-bubble">ask "explain the difference between UVM_ACTIVE and UVM_PASSIVE agent"</div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar ai">AI</div>
+            <div class="chat-bubble ai-bubble">
+              UVM_ACTIVE agent instantiates driver + sequencer + monitor — it actively drives DUT stimulus.<br><br>
+              UVM_PASSIVE agent only has a monitor — it observes signals without driving.<br><br>
+              Use PASSIVE on DUT outputs you want to sample without interference. Set via agent.is_active = UVM_PASSIVE in your env.
+            </div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar user">K</div>
+            <div class="chat-bubble">ask "how do I connect virtual interface in UVM"</div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar ai">AI</div>
+            <div class="chat-bubble ai-bubble">
+              Use uvm_config_db: in your top module set it, in your component get it.<br><br>
+              Set: uvm_config_db#(virtual axi_if)::set(null, "uvm_test_top.*", "vif", axi_if_inst);<br><br>
+              Get: uvm_config_db#(virtual axi_if)::get(this, "", "vif", vif);<br><br>
+              Always call get() in build_phase. <span class="cursor" style="display:inline-block"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- SNIPPETS -->
+<section class="section bg-alt">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Snippet Library</div>
+        <h2 class="section-title">Instant <span>Templates</span></h2>
+      </div>
+      <div class="section-meta">SNIPPETS.LOADED<br>COUNT: 50+</div>
+    </div>
+
+    <div class="snippet-grid">
+      <div class="snippet-card">
+        <div class="snippet-header">
+          <span class="snippet-name">uvm_driver.sv</span>
+          <span class="snippet-badge">UVM</span>
+        </div>
+        <div class="snippet-body">
+          <span class="kw">class</span> <span class="cn">my_driver</span> <span class="kw">extends</span> <span class="cn">uvm_driver</span>#(<span class="cn">my_seq_item</span>);<br>
+          &nbsp;&nbsp;<span class="kw">`uvm_component_utils</span>(<span class="cn">my_driver</span>)<br>
+          &nbsp;&nbsp;<span class="kw">virtual</span> <span class="cn">my_if</span> vif;<br><br>
+          &nbsp;&nbsp;<span class="kw">task</span> <span class="fn">run_phase</span>(<span class="cn">uvm_phase</span> phase);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">forever begin</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.<span class="fn">get_next_item</span>(req);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">drive</span>(req);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seq_item_port.<span class="fn">item_done</span>();<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">end</span><br>
+          &nbsp;&nbsp;<span class="kw">endtask</span><br>
+          <span class="kw">endclass</span>
+        </div>
+      </div>
+      <div class="snippet-card">
+        <div class="snippet-header">
+          <span class="snippet-name">uvm_scoreboard.sv</span>
+          <span class="snippet-badge">UVM</span>
+        </div>
+        <div class="snippet-body">
+          <span class="kw">class</span> <span class="cn">my_scoreboard</span> <span class="kw">extends</span> <span class="cn">uvm_scoreboard</span>;<br>
+          &nbsp;&nbsp;<span class="kw">`uvm_component_utils</span>(<span class="cn">my_scoreboard</span>)<br>
+          &nbsp;&nbsp;<span class="cn">uvm_analysis_imp</span>#(<span class="cn">my_seq_item</span>, <span class="cn">my_scoreboard</span>) ap;<br><br>
+          &nbsp;&nbsp;<span class="kw">function void</span> <span class="fn">write</span>(<span class="cn">my_seq_item</span> item);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// compare actual vs expected</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (item.data !== expected)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">`uvm_error</span>(<span class="st">"SCB"</span>, <span class="st">"MISMATCH"</span>)<br>
+          &nbsp;&nbsp;<span class="kw">endfunction</span><br>
+          <span class="kw">endclass</span>
+        </div>
+      </div>
+      <div class="snippet-card">
+        <div class="snippet-header">
+          <span class="snippet-name">axi_assertion.sv</span>
+          <span class="snippet-badge">SVA</span>
+        </div>
+        <div class="snippet-body">
+          <span class="cm">// AXI valid-ready handshake</span><br>
+          <span class="kw">property</span> <span class="fn">axi_handshake</span>;<br>
+          &nbsp;&nbsp;@(<span class="kw">posedge</span> clk)<br>
+          &nbsp;&nbsp;AWVALID &amp;&amp; !AWREADY |=&gt;<br>
+          &nbsp;&nbsp;$stable(AWADDR) &amp;&amp; $stable(AWVALID);<br>
+          <span class="kw">endproperty</span><br><br>
+          AWADDR_STABLE: <span class="kw">assert property</span>(<span class="fn">axi_handshake</span>)<br>
+          &nbsp;&nbsp;<span class="kw">else</span> <span class="fn">`uvm_error</span>(<span class="st">"AXI"</span>, <span class="st">"AWADDR changed mid-handshake"</span>);
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:40px">
+      <div style="font-family:var(--font-mono);font-size:12px;color:var(--chrome);margin-bottom:16px">Insert any snippet directly in your terminal:</div>
+      <div style="display:inline-block;background:var(--void);border:1px solid var(--strut);padding:14px 32px;font-family:var(--font-mono);font-size:14px">
+        <span style="color:var(--green)">$</span> <span style="color:var(--white)">snippet uvm_driver</span> <span style="color:var(--chrome)">→ inserts template into current file</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- COLLABORATION -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// Remote Collaboration</div>
+        <h2 class="section-title">Build <span>Together</span></h2>
+      </div>
+      <div class="section-meta">COLLAB.STATUS<br>LIVE_SESSIONS: ON</div>
+    </div>
+
+    <div class="collab-grid">
+      <div class="collab-card" data-label="01">
+        <div class="collab-icon">🤝</div>
+        <div class="collab-title">Share Workspaces</div>
+        <div class="collab-desc">Invite teammates to your project with a single terminal command. Set granular access controls per collaborator.</div>
+        <div class="permission-list">
+          <div class="perm-item"><div class="perm-dot" style="background:var(--green)"></div><span style="color:var(--chrome);font-size:12px">Read Only — view files, run simulations</span></div>
+          <div class="perm-item"><div class="perm-dot" style="background:var(--yellow)"></div><span style="color:var(--chrome);font-size:12px">Read Write — edit files, commit code</span></div>
+          <div class="perm-item"><div class="perm-dot" style="background:var(--amber)"></div><span style="color:var(--chrome);font-size:12px">Admin — full access, manage permissions</span></div>
+        </div>
+      </div>
+      <div class="collab-card" data-label="02">
+        <div class="collab-icon">📝</div>
+        <div class="collab-title">Notes Panel</div>
+        <div class="collab-desc">Markdown-supported notes organized by topic. Assertion Notes, UVM Notes, Interview Prep — all searchable and shareable.</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;position:relative;z-index:1">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--yellow);background:rgba(245,216,0,0.08);border:1px solid rgba(245,216,0,0.2);padding:6px 10px">📌 Assertion Notes</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:6px 10px">📌 UVM Phase Guide</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome);background:var(--void);border:1px solid var(--grid);padding:6px 10px">📌 Interview Prep — AXI Protocol</div>
+        </div>
+      </div>
+      <div class="collab-card" data-label="03">
+        <div class="collab-icon">🌐</div>
+        <div class="collab-title">Global Search</div>
+        <div class="collab-desc">Search across all projects, files, notes, and snippet libraries from any terminal. Find anything in milliseconds.</div>
+        <div style="margin-top:20px;background:var(--void);border:1px solid var(--grid);padding:16px 16px;font-family:var(--font-mono);font-size:12px;position:relative;z-index:1">
+          <div style="color:var(--green)">$</div>
+          <div style="color:var(--white);margin:4px 0">search axi_monitor</div>
+          <div style="color:var(--chrome);margin-top:8px;font-size:11px">→ tb/monitor.sv:42 — class axi_monitor</div>
+          <div style="color:var(--chrome);font-size:11px">→ notes/uvm.md:18 — monitor connects to scoreboard</div>
+          <div style="color:var(--chrome);font-size:11px">→ snippets/uvm_monitor.sv — template</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- ARCHITECTURE -->
+<section class="section bg-hull" id="architecture">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">// System Architecture</div>
+        <h2 class="section-title">Under the <span>Hood</span></h2>
+      </div>
+      <div class="section-meta">ARCH.SPEC<br>STACK: CLOUD-NATIVE</div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-layer">
+        <div class="arch-layer-title">Browser Client</div>
+        <div class="arch-items">
+          <div class="arch-item">React 18</div>
+          <div class="arch-item">Tailwind CSS</div>
+          <div class="arch-item">Monaco Editor</div>
+          <div class="arch-item">xterm.js</div>
+          <div class="arch-item">WebSocket Client</div>
+          <div class="arch-item">Waveform Renderer</div>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-title">Server Layer</div>
+        <div class="arch-items">
+          <div class="arch-item">Node.js 20</div>
+          <div class="arch-item">Express REST API</div>
+          <div class="arch-item">Socket.IO</div>
+          <div class="arch-item">Docker Containers</div>
+          <div class="arch-item">PTY Terminal Bridge</div>
+          <div class="arch-item">Auth Service</div>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-title">Storage</div>
+        <div class="arch-items">
+          <div class="arch-item">PostgreSQL DB</div>
+          <div class="arch-item">Redis Cache</div>
+          <div class="arch-item">Object Storage</div>
+          <div class="arch-item">File Versioning</div>
+          <div class="arch-item">Autosave Queue</div>
+          <div class="arch-item">Snapshot Store</div>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <div class="arch-layer-title">Workers</div>
+        <div class="arch-items">
+          <div class="arch-item">Compile Worker</div>
+          <div class="arch-item">Simulation Worker</div>
+          <div class="arch-item">Git Worker</div>
+          <div class="arch-item">Waveform Worker</div>
+          <div class="arch-item">Coverage Worker</div>
+          <div class="arch-item">AI Proxy Worker</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow diagram -->
+    <div style="margin-top:2px;background:var(--hull);border:1px solid var(--strut);padding:40px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap">
+      <div style="text-align:center;padding:0 24px">
+        <div style="font-family:var(--font-hud);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:8px">Browser</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome)">React + xterm.js</div>
+      </div>
+      <div style="color:var(--yellow);font-size:24px;padding:0 8px">⟶</div>
+      <div style="text-align:center;padding:0 24px">
+        <div style="font-family:var(--font-hud);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:8px">WebSocket</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome)">Socket.IO</div>
+      </div>
+      <div style="color:var(--yellow);font-size:24px;padding:0 8px">⟶</div>
+      <div style="text-align:center;padding:0 24px">
+        <div style="font-family:var(--font-hud);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:8px">PTY Shell</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome)">Docker + bash</div>
+      </div>
+      <div style="color:var(--yellow);font-size:24px;padding:0 8px">⟶</div>
+      <div style="text-align:center;padding:0 24px">
+        <div style="font-family:var(--font-hud);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:8px">EDA Tools</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome)">Questa / VCS / xrun</div>
+      </div>
+      <div style="color:var(--yellow);font-size:24px;padding:0 8px">⟶</div>
+      <div style="text-align:center;padding:0 24px">
+        <div style="font-family:var(--font-hud);font-size:13px;font-weight:700;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:8px">Results</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--chrome)">Waveforms + Coverage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-label">// Ready to Build</div>
+  <h2 class="cta-headline">
+    YOUR<br>
+    <span class="y">WORKSTATION.</span><br>
+    YOUR RULES.
+  </h2>
+  <p class="cta-sub">No fixed labs. No forced projects. Just a blank terminal and the power to build anything you imagine in VLSI verification.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">Boot Linux-Khaja</a>
+    <a href="#features" class="btn-ghost">Explore All Features</a>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:64px;margin-top:72px;padding-top:48px;border-top:1px solid var(--strut);position:relative;z-index:1;flex-wrap:wrap">
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ Real Linux Terminal</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ GVIM / Vim / VS Code</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ Unlimited Projects</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ Git Integration</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ Multi-Terminal Support</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ Waveform Viewer</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ EDA Tool Plugins</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:6px">✓ AI Assistant</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">LINUX<span>-</span>KHAJA</div>
+    <div class="footer-links">
+      <a href="#">Documentation</a>
+      <a href="#">API</a>
+      <a href="#">Plugins</a>
+      <a href="#">Community</a>
+      <a href="#">GitHub</a>
+    </div>
+    <div class="footer-copy">DV Workbench OS © 2025 · khaja@dvworkbench</div>
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  function showTab(name) {
+    document.querySelectorAll('.ts-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ts-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Animate numbers on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.feature-card, .metric-card, .tool-card, .collab-card, .arch-layer').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
